@@ -1,0 +1,37 @@
+package com.lucas.gestorrecetas.dominio.modelo;
+
+import com.lucas.gestorrecetas.dominio.excepciones.RecetaInvalidaException;
+import com.lucas.gestorrecetas.dominio.modelo.enums.TipoPlato;
+import lombok.Builder;
+
+import java.util.List;
+
+
+public class Receta {
+
+    private final String nombre;
+
+    private final List<RecetaIngrediente> ingredientes;
+
+    private final TipoPlato tipoPlato;
+
+@Builder
+    public Receta(String nombre,List<RecetaIngrediente>ingredientes, TipoPlato tipoPlato) {
+    if(nombre == null || nombre.isBlank()){
+        throw new RecetaInvalidaException("El nombre de receta es obligatorio");
+        }
+    if (ingredientes == null || ingredientes.isEmpty()){
+        throw new RecetaInvalidaException("La receta debe tener al menos un ingrediente");
+    }
+    if (ingredientes.size()>30){
+        throw new RecetaInvalidaException("La receta no puedo contener más de 30 ingredientes");
+    }
+
+    if (tipoPlato == null){
+        throw new RecetaInvalidaException("La receta debe tener tipo de plato seleccionado");
+    }
+    this.nombre = nombre;
+    this.ingredientes = ingredientes;
+    this.tipoPlato = tipoPlato;
+    }
+}

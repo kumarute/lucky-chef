@@ -1,0 +1,14 @@
+# Dependencias y artefactos del front (Angular, pendiente)
+node_modules/
+dist/
+.angular/
+
+# Entornos y secretos: nunca subir claves de API
+.env
+.env.*
+**/application-local.properties
+**/application-secrets.properties
+
+# Sistema operativo
+Thumbs.db
+.DS_Store
