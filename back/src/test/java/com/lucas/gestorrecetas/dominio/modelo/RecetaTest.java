@@ -65,5 +65,13 @@ public class RecetaTest {
         Receta receta = new Receta("Sopa",listaIngredientes,TipoPlato.CARNES);
         listaIngredientes.clear();
         assertEquals(2, receta.getIngredientes().size());
-        }
+    }
+
+    @Test
+    void laListaDevueltaEsInmodificable(){
+        List<RecetaIngrediente> listaIngredientes = List.of(new RecetaIngrediente("huevos",1d,"unidades"));
+        Receta receta = new Receta("Sopa",listaIngredientes,TipoPlato.ENSALADAS);
+        assertThrows(UnsupportedOperationException.class,
+                ()->receta.getIngredientes().add(new RecetaIngrediente("jamon",1d,"gr")));
+    }
 }
