@@ -1,10 +1,14 @@
 package com.lucas.gestorrecetas.dominio.modelo;
 import com.lucas.gestorrecetas.dominio.excepciones.RecetaInvalidaException;
+import com.lucas.gestorrecetas.dominio.modelo.enums.TipoPlato;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 public class RecetaTest {
 
@@ -41,4 +45,25 @@ public class RecetaTest {
                         .tipoPlato(null)
                         .build());
     }
+
+    @Test
+    void lanzaExcepcionSiUnIngredienteEsNull() {
+         var conNull = Arrays.asList(new RecetaIngrediente("huevo", 1d, "unidad"), null);
+         assertThrows(RecetaInvalidaException.class,
+                 ()->Receta.builder()
+                         .nombre("tortilla")
+                         .ingredientes(conNull)
+                         .tipoPlato(TipoPlato.CARNES)
+                         .build());
+    }
+
+    @Test
+    void laRecetaNoCambiaSiSeModificaLaListaOriginal(){
+       var listaIngredientes = new ArrayList<RecetaIngrediente>();
+        listaIngredientes.add(new RecetaIngrediente("huevos",1d,"unidad"));
+        listaIngredientes.add(new RecetaIngrediente("patata",3d,"unidades"));
+        Receta receta = new Receta("Sopa",listaIngredientes,TipoPlato.CARNES);
+        listaIngredientes.clear();
+        assertEquals(2, receta.getIngredientes().size());
+        }
 }

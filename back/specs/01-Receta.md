@@ -15,6 +15,7 @@ tiempos, pasos y categorias además incluimos la valoración personal.
 - valoraciones: opcional lista de VO Valoracion{autor, nota, fecha, comentario}
 - fecha (creación), vecesRepetida (empieza en 1), fechaUltimaRepeticion: gestionados por el sistema, no por el usuario.
 - Invariante de fondo: todo esto se valida en el dominio (no se puede construir una Receta inválida), no es una regla de persistencia
+- ingredientes debe ser una lista inmutable
 
 ## Criterios de aceptación
 
@@ -25,3 +26,6 @@ tiempos, pasos y categorias además incluimos la valoración personal.
 - Dado el usuario escribe una receta sin añadir foto, Cuando se trate de construir el objeto Receta Entonces lanza RecetaInvalidaException.
 - Dado el usuario escribe una receta con menos de 1 paso o más de 30 pasos, Cuando se trate de construir el objeto Receta Entonces lanza RecetaInvalidaException.
 - Dado el usuario escribe una receta con nombre, al menos 1 ingrediente, con tipoPlato, foto añadida, al menos 1 paso, Cuando se trate de construir el objeto Receta Entonces se construye correctamente y el sistema asigna fecha, vecesRepetida=1 y fechaUltimaRepeticion.
+- Dado el usuario escribe una receta con una lista de ingredientes, Cuando se trata de modificar la lista devuelta por la receta en el código después de construir el objeto Entonces se lanza una UnsupportedOperationException.
+- Dado el usuario escribe una receta con ingredientes y al menos uno de sus elementos es nulo, Cuando se trata de crear el objeto Entonces se lanza un RecetaInvalidaException.
+- Dado una receta construida con una lista de ingredientes, Cuando se modifica la lista original despues de construir el objeto receta, Entonces la lista de la receta conserva los valores que tenía al construirse.
