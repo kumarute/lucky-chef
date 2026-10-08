@@ -25,7 +25,7 @@ public class Receta {
         throw new RecetaInvalidaException("La receta debe tener al menos un ingrediente");
     }
     if (ingredientes.size()>30){
-        throw new RecetaInvalidaException("La receta no puedo contener más de 30 ingredientes");
+        throw new RecetaInvalidaException("La receta no puede contener más de 30 ingredientes");
     }
     if (ingredientes.stream().anyMatch(Objects::isNull)){
         throw new RecetaInvalidaException("La receta no puede contener ingredientes nulos");
