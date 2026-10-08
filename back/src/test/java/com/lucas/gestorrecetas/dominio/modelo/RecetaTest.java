@@ -12,6 +12,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 public class RecetaTest {
 
+    static class ListaTramposa extends ArrayList<RecetaIngrediente> {
+
+        @Override
+        public Object[] toArray(){
+            RecetaIngrediente valido = new RecetaIngrediente("huevos",1d,"unidades");
+            Object[] resultado = new Object[31];
+            Arrays.fill(resultado,valido);
+            return resultado;
+        }
+    }
+
     @Test
     void lanzaExcepcionSiFaltaNombre(){
         assertThrows(RecetaInvalidaException.class,
@@ -73,5 +84,14 @@ public class RecetaTest {
         Receta receta = new Receta("Sopa",listaIngredientes,TipoPlato.ENSALADAS);
         assertThrows(UnsupportedOperationException.class,
                 ()->receta.getIngredientes().add(new RecetaIngrediente("jamon",1d,"gr")));
+    }
+
+    @Test
+    void lanzaExcepcionSiLaListaCambiaEntreValidacionYCopia(){
+        ListaTramposa tramposa  = new ListaTramposa();
+        tramposa.add(new RecetaIngrediente("huevo",1d,"unidad"));
+        RecetaInvalidaException exception = assertThrows(RecetaInvalidaException.class,
+                ()-> new Receta("sopa",tramposa,TipoPlato.ENSALADAS));
+        assertEquals("La receta no puede contener más de 30 ingredientes",exception.getMessage());
     }
 }
