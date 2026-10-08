@@ -1,19 +1,20 @@
 # Estado del proyecto
 
-## Cierre de sesión 2026-09-30
+## Cierre de sesión 2026-10-01
 
 ### Hecho
-- Spec `01-Receta.md` ampliada: ingredientes inmutable, elemento nulo, lista original modificada, lista devuelta inmodificable.
-- Tests en `RecetaTest`: `lanzaExcepcionSiUnIngredienteEsNull` y `laRecetaNoCambiaSiSeModificaLaListaOriginal` (verde).
-- `Receta`: `List.copyOf` en el constructor, `getIngredientes()`.
+- Test `laListaDevueltaEsInmodificable` en `RecetaTest` (verde; visto en rojo saboteando el getter).
+- Commits: `af71b8a` (test) y `a715f4e` (docs: `puntosDeMejora.md`, `memoriaProyecto.md`).
+- Decidido el diseño del refactor TOCTOU (ver `memoriaProyecto.md`, 2026-10-01).
 
 ### Pendiente (siguiente sesión)
-1. Test `laListaDevueltaEsInmodificable` (`assertThrows(UnsupportedOperationException.class, ...)` con un `add` sobre `getIngredientes()`).
-2. Refactor: copiar primero y validar la copia (cerrar ventana TOCTOU), con tests en verde.
+1. Refactor TOCTOU en el constructor de `Receta`: `new ArrayList<>(ingredientes)` → validar la copia → `List.copyOf(copia)`. Tests en verde antes y después, sin cambiar comportamiento.
+2. Limpiar indentación y typo en `Receta.java` ("no puedo contener" → "no puede contener").
 3. Campos de la spec aún sin modelar: foto, pasos, tiempoPreparacion, comentarioPersonal, valoraciones, fecha, vecesRepetida, fechaUltimaRepeticion.
-4. Limpiar indentación y typos en `Receta.java` (mensaje "no puedo contener").
 
 ### Notas
-- Gradle no corre desde WSL (falta JDK 25); ejecutar tests desde IDE/Windows.
-- Cambios sin commit: `CLAUDE.md`, `RecetaTest`, `Receta`, spec y los .md nuevos.
-- Repaso de inicio de la próxima sesión: pedir que explique por qué el `anyMatch(Objects::isNull)` va antes de `List.copyOf`.
+- Gradle no corre desde WSL (falta JDK 25); ejecutar tests desde IDE/Windows. Reportar el número de tests ejecutados/pasados, no "todos".
+- En PowerShell, comprobar el directorio actual antes de usar rutas relativas (el repo git está en `lucky-chef/`, el proyecto en `lucky-chef/back/`).
+- Repaso de inicio de la próxima sesión: sin mirar, explicar la diferencia entre copia defensiva en el getter y lista inmodificable, y por qué se eligió la segunda. Después, trazar: `var a = new ArrayList<>(b); a.clear();` ¿qué le pasa a `b`?
+- `RecetaIngrediente` es inmutable porque sus componentes (String, Double, String) lo son; un record solo da inmutabilidad superficial. Repasar al modelar `pasos`/`valoraciones`.
+- Decisión de dominio pendiente: `cantidad` es `Double` y acepta `null`; `cantidad` y `unidad` no se validan.
