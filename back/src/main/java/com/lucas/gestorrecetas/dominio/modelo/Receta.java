@@ -17,6 +17,8 @@ public class Receta {
 
     private final TipoPlato tipoPlato;
 
+    private static final int MAX_INGREDIENTES = 30;
+
     @Builder
     public Receta(String nombre, List<RecetaIngrediente> ingredientes, TipoPlato tipoPlato) {
         if (nombre == null || nombre.isBlank()) {
@@ -32,8 +34,8 @@ public class Receta {
             throw new RecetaInvalidaException("La receta debe tener al menos un ingrediente");
         }
 
-        if (copia.size() > 30) {
-            throw new RecetaInvalidaException("La receta no puede contener más de 30 ingredientes");
+        if (copia.size() > MAX_INGREDIENTES) {
+            throw new RecetaInvalidaException("La receta no puede contener más de " + MAX_INGREDIENTES + " ingredientes");
         }
         if (copia.stream().anyMatch(Objects::isNull)) {
             throw new RecetaInvalidaException("La receta no puede contener ingredientes nulos");
